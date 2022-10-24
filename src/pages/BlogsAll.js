@@ -1,11 +1,11 @@
-import Cards from "./components/cards";
-import Layout from "./Layouts/Layout";
+import Blogs from "../components/blogs";
+import Layout from "../Layouts/Layout";
 
 function App() {
   return (
     <>
       <Layout>
-        <Cards />
+        <Blogs />
       </Layout>
     </>
   );

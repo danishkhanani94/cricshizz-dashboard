@@ -11,6 +11,7 @@ const AddBlog = () => {
     title: "",
     short_title: "",
     description: "",
+    longdescription: "",
     uploaded_by: "",
     innerbanner: {},
     mainbanner: {},
@@ -22,6 +23,7 @@ const AddBlog = () => {
     formData.append("title", Blog.title);
     formData.append("short_title", Blog.short_title);
     formData.append("description", Blog.description);
+    formData.append("longdescription", Blog.longdescription);
     formData.append("uploaded_by", Blog.uploaded_by);
 
     const LogoName = uuid() + "" + Blog.logo.name;
@@ -135,7 +137,7 @@ const AddBlog = () => {
                       </label>
                       <textarea
                         className="form-control"
-                        maxLength="225"
+                        maxLength="1000"
                         rows="3"
                         name="maxlength-textarea"
                         id="maxlength-textarea"
@@ -143,7 +145,24 @@ const AddBlog = () => {
                         onChange={(e) => {
                           SetBlog({ ...Blog, description: e.target.value });
                         }}
-                        placeholder="This textarea has a limit of 225 chars."
+                        placeholder="This Field has a limit of 1000 chars."
+                      ></textarea>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="inputAddress">
+                        Long Description
+                      </label>
+                      <textarea
+                        className="form-control"
+                        maxLength="5000"
+                        rows="3"
+                        name="maxlength-textarea"
+                        id="maxlength-textarea"
+                        value={Blog?.longdescription}
+                        onChange={(e) => {
+                          SetBlog({ ...Blog, longdescription: e.target.value });
+                        }}
+                        placeholder="This Field has a limit of 5000 chars."
                       ></textarea>
                     </div>
                     <div className="mb-3">
