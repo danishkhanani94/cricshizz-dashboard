@@ -9,34 +9,61 @@ const AddBlog = () => {
 
   const [Blog, SetBlog] = useState({
     title: "",
-    short_title: "",
     description: "",
     longdescription: "",
     uploaded_by: "",
+    team_a: "",
+    team_b: "",
+    match_category: "",
     innerbanner: {},
     mainbanner: {},
-    logo: {},
   });
 
   function InsertBlog() {
+    if (
+      Blog.title === "" ||
+      Blog.description === "" ||
+      Blog.longdescription === "" ||
+      Blog.uploaded_by === "" ||
+      Blog.match_category === "" ||
+      Blog.mainbanner.size === undefined ||
+      Blog.innerbanner.size === undefined
+    ) {
+      SetAlert(
+        <SweetAlert
+          warning
+          show={true}
+          allowEscape={true}
+          closeOnClickOutside={true}
+          title={"All Field's are required"}
+          onConfirm={() => {
+            SetAlert();
+          }}
+          onCancel={() => {
+            SetAlert();
+          }}
+        ></SweetAlert>
+      );
+      return false;
+    }
     const formData = new FormData();
     formData.append("title", Blog.title);
-    formData.append("short_title", Blog.short_title);
     formData.append("description", Blog.description);
     formData.append("longdescription", Blog.longdescription);
     formData.append("uploaded_by", Blog.uploaded_by);
+    formData.append("team_a", Blog.team_a);
+    formData.append("team_b", Blog.team_b);
+    formData.append("match_category", Blog.match_category);
 
-    const LogoName = uuid() + "" + Blog.logo.name;
     const MainBannerName = uuid() + "" + Blog.mainbanner.name;
     const InnerBanerName = uuid() + "" + Blog.innerbanner.name;
 
     formData.append("innerbanner", InnerBanerName);
     formData.append("mainbanner", MainBannerName);
-    formData.append("logo", LogoName);
 
     UploadFile({
-      files: [Blog.logo, Blog.mainbanner, Blog.innerbanner],
-      name: [LogoName, MainBannerName, InnerBanerName],
+      files: [Blog.mainbanner, Blog.innerbanner],
+      name: [MainBannerName, InnerBanerName],
     });
 
     const Upload = axios.post(
@@ -118,21 +145,6 @@ const AddBlog = () => {
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">
-                        Small Title
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="inputAddress"
-                        placeholder=""
-                        value={Blog?.short_title}
-                        onChange={(e) => {
-                          SetBlog({ ...Blog, short_title: e.target.value });
-                        }}
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label className="form-label" htmlFor="inputAddress">
                         Description
                       </label>
                       <textarea
@@ -164,28 +176,6 @@ const AddBlog = () => {
                         }}
                         placeholder="This Field has a limit of 5000 chars."
                       ></textarea>
-                    </div>
-                    <div className="mb-3">
-                      <label className="form-label" htmlFor="inputAddress">
-                        Logo
-                      </label>
-                      <div className="input-group">
-                        <input
-                          type="file"
-                          className="form-control"
-                          id="inputGroupFile04"
-                          aria-describedby="inputGroupFileAddon04"
-                          aria-label="Upload"
-                          onChange={(e) => {
-                            if (e.target.files[0]) {
-                              SetBlog({
-                                ...Blog,
-                                logo: e.target.files[0],
-                              });
-                            }
-                          }}
-                        />
-                      </div>
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">
@@ -230,6 +220,51 @@ const AddBlog = () => {
                           }}
                         />
                       </div>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="inputAddress">
+                        Match Category
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputAddress"
+                        placeholder=""
+                        value={Blog?.match_category}
+                        onChange={(e) => {
+                          SetBlog({ ...Blog, match_category: e.target.value });
+                        }}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="inputAddress">
+                        Match Between Team A
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputAddress"
+                        placeholder=""
+                        value={Blog?.team_a}
+                        onChange={(e) => {
+                          SetBlog({ ...Blog, team_a: e.target.value });
+                        }}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="inputAddress">
+                        Match Between Team B
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputAddress"
+                        placeholder=""
+                        value={Blog?.team_b}
+                        onChange={(e) => {
+                          SetBlog({ ...Blog, team_b: e.target.value });
+                        }}
+                      />
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">

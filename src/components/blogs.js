@@ -66,6 +66,7 @@ const Blogs = () => {
                           <tr>
                             <th scope="col">id</th>
                             <th scope="col">title</th>
+                            <th scope="col">match category</th>
                             <th scope="col">posted by</th>
                             <th scope="col">Action</th>
                           </tr>
@@ -80,6 +81,7 @@ const Blogs = () => {
                                     {v?.title}
                                   </Link>
                                 </th>
+                                <td>{v?.match_category}</td>
                                 <td>{v?.uploaded_by}</td>
                                 <td>
                                   <button
