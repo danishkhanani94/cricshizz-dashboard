@@ -1,117 +1,46 @@
-import { useState } from "react";
 import axios from "axios";
 import SweetAlert from "react-bootstrap-sweetalert";
-import UploadFile from "./UploadFile";
-import uuid from "react-uuid";
-
-const AddBlog = () => {
-  const [Alert, SetAlert] = useState();
-
-  const [Blog, SetBlog] = useState({
-    title: "",
-    description: "",
-    longdescription: "",
-    uploaded_by: "",
-    team_a: "",
-    team_b: "",
-    match_category: "",
-    innerbanner: {},
-    mainbanner: {},
-  });
-
-  function InsertBlog() {
-    if (
-      Blog.title === "" ||
-      Blog.description === "" ||
-      Blog.longdescription === "" ||
-      Blog.uploaded_by === "" ||
-      Blog.match_category === "" ||
-      Blog.mainbanner.size === undefined ||
-      Blog.innerbanner.size === undefined
-    ) {
-      SetAlert(
-        <SweetAlert
-          warning
-          show={true}
-          allowEscape={true}
-          closeOnClickOutside={true}
-          title={"All Field's are required"}
-          onConfirm={() => {
-            SetAlert();
-          }}
-          onCancel={() => {
-            SetAlert();
-          }}
-        ></SweetAlert>
-      );
-      return false;
-    }
-    const formData = new FormData();
-    formData.append("title", Blog.title);
-    formData.append("description", Blog.description);
-    formData.append("longdescription", Blog.longdescription);
-    formData.append("uploaded_by", Blog.uploaded_by);
-    formData.append("team_a", Blog.team_a);
-    formData.append("team_b", Blog.team_b);
-    formData.append("match_category", Blog.match_category);
-
-    const MainBannerName = uuid() + "" + Blog.mainbanner.name;
-    const InnerBanerName = uuid() + "" + Blog.innerbanner.name;
-
-    formData.append("innerbanner", InnerBanerName);
-    formData.append("mainbanner", MainBannerName);
-
-    UploadFile({
-      files: [Blog.mainbanner, Blog.innerbanner],
-      name: [MainBannerName, InnerBanerName],
-    });
-
-    const Upload = axios.post(
-      `${process.env.REACT_APP_SERVER_URL}blogs/add-blog`,
-      formData,
+import { useEffect, useState } from "react";
+const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
+  console.log(Blog);
+  const [Teams, SetTeams] = useState([]);
+  const [Category, SetCategory] = useState([]);
+  useEffect(() => {
+    const GetData = axios.get(
+      `${process.env.REACT_APP_SERVER_URL}teams/`,
+      {},
       {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       }
     );
-    Upload.then((r) => {
-      const Result = r.data[0];
-      if (Result.success) {
-        SetAlert(
-          <SweetAlert
-            success
-            show={true}
-            allowEscape={true}
-            closeOnClickOutside={true}
-            title={Result.mess}
-            onConfirm={() => {
-              SetAlert();
-            }}
-            onCancel={() => {
-              SetAlert();
-            }}
-          ></SweetAlert>
-        );
+    GetData.then((r) => {
+      var Result = r.data[0];
+      if (Result?.success) {
+        SetTeams(Result.Data);
       } else {
-        SetAlert(
-          <SweetAlert
-            warning
-            show={true}
-            allowEscape={true}
-            closeOnClickOutside={true}
-            title={Result.mess}
-            onConfirm={() => {
-              SetAlert();
-            }}
-            onCancel={() => {
-              SetAlert();
-            }}
-          ></SweetAlert>
-        );
+        console.log(Result);
       }
     });
-  }
+    const GetDataCat = axios.get(
+      `${process.env.REACT_APP_SERVER_URL}category/`,
+      {},
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    GetDataCat.then((r) => {
+      var Result = r.data[0];
+      if (Result?.success) {
+        SetCategory(Result.Data);
+      } else {
+        console.log(Result);
+      }
+    });
+  }, []);
   return (
     <>
       <div className="main_content_iner ">
@@ -225,46 +154,58 @@ const AddBlog = () => {
                       <label className="form-label" htmlFor="inputAddress">
                         Match Category
                       </label>
-                      <input
-                        type="text"
+                      <select
                         className="form-control"
-                        id="inputAddress"
-                        placeholder=""
-                        value={Blog?.match_category}
-                        onChange={(e) => {
+                        onSelect={(e) => {
                           SetBlog({ ...Blog, match_category: e.target.value });
                         }}
-                      />
+                      >
+                        {Category?.map((v, i) => {
+                          return (
+                            <option value={v.id} key={i}>
+                              {v.name}
+                            </option>
+                          );
+                        })}
+                      </select>
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">
                         Match Between Team A
                       </label>
-                      <input
-                        type="text"
+                      <select
                         className="form-control"
-                        id="inputAddress"
-                        placeholder=""
-                        value={Blog?.team_a}
-                        onChange={(e) => {
+                        onSelect={(e) => {
                           SetBlog({ ...Blog, team_a: e.target.value });
                         }}
-                      />
+                      >
+                        {Teams?.map((v, i) => {
+                          return (
+                            <option value={v.id} key={i}>
+                              {v.name}
+                            </option>
+                          );
+                        })}
+                      </select>
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">
                         Match Between Team B
                       </label>
-                      <input
-                        type="text"
+                      <select
                         className="form-control"
-                        id="inputAddress"
-                        placeholder=""
-                        value={Blog?.team_b}
-                        onChange={(e) => {
+                        onSelect={(e) => {
                           SetBlog({ ...Blog, team_b: e.target.value });
                         }}
-                      />
+                      >
+                        {Teams?.map((v, i) => {
+                          return (
+                            <option value={v.id} key={i}>
+                              {v.name}
+                            </option>
+                          );
+                        })}
+                      </select>
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">
@@ -285,7 +226,7 @@ const AddBlog = () => {
                       type="submit"
                       className="btn btn-primary"
                       onClick={() => {
-                        InsertBlog();
+                        InsertBlog(SetAlert, Blog);
                       }}
                     >
                       Add Blog
@@ -297,7 +238,6 @@ const AddBlog = () => {
           </div>
         </div>
       </div>
-      {Alert}
     </>
   );
 };

@@ -8,6 +8,8 @@ import App from "./App";
 import Blog from "./pages/Blog";
 import BlogAll from "./pages/BlogsAll";
 import Login from "./pages/Login";
+import Team from './pages/Team'
+import Category from './pages/Category'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +19,8 @@ root.render(
       <Route path="/login" element={<Login />} />
       <Route path="/add-blog" element={<Blog />} />
       <Route path="/blogs" element={<BlogAll />} />
+      <Route path="/add-single-team" element={<Team />} />
+      <Route path="/add-single-category" element={<Category />} />
     </Routes>
   </BrowserRouter>
 );

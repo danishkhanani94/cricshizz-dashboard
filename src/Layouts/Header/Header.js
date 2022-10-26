@@ -38,11 +38,19 @@ const Header = (props) => {
             </Link>
           </li>
           <li className="mm-active">
-            <Link to=":)" aria-expanded="false">
+            <Link to="/add-single-team" aria-expanded="false">
               <div className="icon_menu">
                 <img src="img/menu-icon/dashboard.svg" alt="" />
               </div>
-              <span>Teams</span>
+              <span>Add Team</span>
+            </Link>
+          </li>
+          <li className="mm-active">
+            <Link to="/add-single-category" aria-expanded="false">
+              <div className="icon_menu">
+                <img src="img/menu-icon/dashboard.svg" alt="" />
+              </div>
+              <span>Add Category</span>
             </Link>
           </li>
         </ul>
