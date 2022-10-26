@@ -10,7 +10,7 @@ function App() {
   const [Alert, SetAlert] = useState();
   const [Gallery, SetGallery] = useState({
     album_name: "",
-    innerimages: "",
+    innerimages: [],
     team_a: "",
     team_b: "",
     match_category: "",
@@ -20,7 +20,7 @@ function App() {
   const InsertGallery = () => {
     if (
       Gallery.album_name === "" ||
-      Gallery.innerimages === "" ||
+      Gallery.innerimages.length === 0 ||
       Gallery.team_a === "" ||
       Gallery.team_b === "" ||
       Gallery.match_category === "" ||
@@ -50,16 +50,25 @@ function App() {
     formData.append("match_category", Gallery.match_category);
 
     const MainBannerName = uuid() + "" + Gallery.mainbanner.name;
-
     formData.append("mainbanner", MainBannerName);
-
     UploadFile({
       files: [Gallery.mainbanner],
       name: [MainBannerName],
     });
+    const tmp_imagearray = [];
+    for (let i = 0; i < Gallery.innerimages.length; i++) {
+      const v = Gallery.innerimages[i];
+      const InnerBannerName = uuid() + "" + v.name;
+      tmp_imagearray.push(InnerBannerName);
+      UploadFile({
+        files: [v],
+        name: [InnerBannerName],
+      });
+    }
+    formData.append("innerimages", JSON.stringify(tmp_imagearray));
 
     const Upload = axios.post(
-      `${process.env.REACT_APP_SERVER_URL}gallery/add-gallery`,
+      `${process.env.REACT_APP_SERVER_URL}gallery/add`,
       formData,
       {
         headers: {

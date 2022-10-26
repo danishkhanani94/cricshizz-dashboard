@@ -8,9 +8,10 @@ import App from "./App";
 import Blog from "./pages/Blog";
 import BlogAll from "./pages/BlogsAll";
 import Login from "./pages/Login";
-import Team from './pages/Team'
-import Category from './pages/Category'
-import Gallery from './pages/Gallery'
+import Team from "./pages/Team";
+import Category from "./pages/Category";
+import Gallery from "./pages/Gallery";
+import GalleryAll from "./pages/GalleryAll";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -22,6 +23,7 @@ root.render(
       <Route path="/blogs" element={<BlogAll />} />
       <Route path="/add-single-team" element={<Team />} />
       <Route path="/add-single-category" element={<Category />} />
+      <Route path="/gallery" element={<GalleryAll />} />
       <Route path="/add-gallery" element={<Gallery />} />
     </Routes>
   </BrowserRouter>

@@ -4,6 +4,7 @@ import axios from "axios";
 const Cards = () => {
   const [Data, SetData] = useState({
     blogs: 0,
+    gallery: 0,
   });
 
   useEffect(() => {
@@ -39,21 +40,13 @@ const Cards = () => {
 
                         <div className="single_quick_activity">
                           <div className="count_content">
-                            <p>Teams</p>
+                            <p>Gallery</p>
                             <h3>
-                              <span className="counter">350</span>{" "}
+                              <span className="counter">{Data.gallery}</span>{" "}
                             </h3>
                           </div>
                         </div>
-
-                        <div className="single_quick_activity">
-                          <div className="count_content">
-                            <p>Gellery</p>
-                            <h3>
-                              <span className="counter">500</span>{" "}
-                            </h3>
-                          </div>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>

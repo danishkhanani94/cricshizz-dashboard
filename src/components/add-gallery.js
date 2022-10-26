@@ -103,16 +103,18 @@ const AddGallery = ({ InsertGallery, Gallery, SetGallery, SetAlert }) => {
                       <div className="input-group">
                         <input
                           type="file"
+                          multiple
                           className="form-control"
                           id="inputGroupFile04"
                           aria-describedby="inputGroupFileAddon04"
                           aria-label="Upload"
                           onChange={(e) => {
-                            if (e.target.files[0]) {
+                            if (e.target.files) {
                               SetGallery({
                                 ...Gallery,
-                                innerimages: e.target.files[0],
+                                innerimages: e.target.files,
                               });
+                              console.log(e.target.files)
                             }
                           }}
                         />
