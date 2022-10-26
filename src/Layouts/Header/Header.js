@@ -30,11 +30,11 @@ const Header = (props) => {
             </Link>
           </li>
           <li className="mm-active">
-            <Link to=":)" aria-expanded="false">
+            <Link to="/add-gallery" aria-expanded="false">
               <div className="icon_menu">
                 <img src="img/menu-icon/dashboard.svg" alt="" />
               </div>
-              <span>Gallery</span>
+              <span>Add Gallery</span>
             </Link>
           </li>
           <li className="mm-active">
