@@ -156,10 +156,11 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
                       </label>
                       <select
                         className="form-control"
-                        onSelect={(e) => {
+                        onChange={(e) => {
                           SetBlog({ ...Blog, match_category: e.target.value });
                         }}
                       >
+                        <option></option>
                         {Category?.map((v, i) => {
                           return (
                             <option value={v.id} key={i}>
@@ -175,10 +176,11 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
                       </label>
                       <select
                         className="form-control"
-                        onSelect={(e) => {
+                        onChange={(e) => {
                           SetBlog({ ...Blog, team_a: e.target.value });
                         }}
                       >
+                        <option></option>
                         {Teams?.map((v, i) => {
                           return (
                             <option value={v.id} key={i}>
@@ -194,10 +196,11 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
                       </label>
                       <select
                         className="form-control"
-                        onSelect={(e) => {
+                        onChange={(e) => {
                           SetBlog({ ...Blog, team_b: e.target.value });
                         }}
                       >
+                        <option></option>
                         {Teams?.map((v, i) => {
                           return (
                             <option value={v.id} key={i}>

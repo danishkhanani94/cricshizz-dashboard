@@ -7,15 +7,14 @@ const Cards = () => {
   });
 
   useEffect(() => {
-    async function getBlogs() {
+    async function getData() {
       await axios
-        .get(`${process.env.REACT_APP_SERVER_URL}blogs/`)
+        .get(`${process.env.REACT_APP_SERVER_URL}counts`)
         .then((res) => {
-          SetData({ ...Data, blogs: res.data[0].Data.length });
-          console.log(res.data[0].Data.length);
+          SetData(res.data[0].Data);
         });
     }
-    getBlogs();
+    getData();
   }, []);
 
   return (

@@ -8,7 +8,7 @@ const Blogs = () => {
   useEffect(() => {
     async function getBlogs() {
       await axios
-        .get(`${process.env.REACT_APP_SERVER_URL}blogs/`)
+        .get(`${process.env.REACT_APP_SERVER_URL}blogs/all`)
         .then((res) => {
           SetBlogs(res.data[0].Data);
           console.log(res.data[0].Data);
