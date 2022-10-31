@@ -5,6 +5,8 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
   console.log(Blog);
   const [Teams, SetTeams] = useState([]);
   const [Category, SetCategory] = useState([]);
+  const [Gallery, SetGallery] = useState([]);
+
   useEffect(() => {
     const GetData = axios.get(
       `${process.env.REACT_APP_SERVER_URL}teams/`,
@@ -36,6 +38,23 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
       var Result = r.data[0];
       if (Result?.success) {
         SetCategory(Result.Data);
+      } else {
+        console.log(Result);
+      }
+    });
+    const GetDataGal = axios.get(
+      `${process.env.REACT_APP_SERVER_URL}gallery/all`,
+      {},
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    GetDataGal.then((r) => {
+      var Result = r.data[0];
+      if (Result?.success) {
+        SetGallery(Result.Data);
       } else {
         console.log(Result);
       }
@@ -205,6 +224,29 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
                           return (
                             <option value={v.id} key={i}>
                               {v.name}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="inputAddress">
+                        Blog Gallery
+                      </label>
+                      <select
+                        className="form-control"
+                        onChange={(e) => {
+                          SetBlog({
+                            ...Blog,
+                            gallery: parseInt(e.target.value),
+                          });
+                        }}
+                      >
+                        <option></option>
+                        {Gallery?.map((v, i) => {
+                          return (
+                            <option value={v.id} key={i}>
+                              {v.album_name} - ( {v.id} )
                             </option>
                           );
                         })}

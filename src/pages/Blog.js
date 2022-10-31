@@ -15,6 +15,7 @@ function App() {
     uploaded_by: "",
     team_a: "",
     team_b: "",
+    gallery: null,
     match_category: "",
     innerbanner: {},
     mainbanner: {},
@@ -54,6 +55,7 @@ function App() {
     formData.append("uploaded_by", Blog.uploaded_by);
     formData.append("team_a", Blog.team_a);
     formData.append("team_b", Blog.team_b);
+    formData.append("gallery", Blog.gallery);
     formData.append("match_category", Blog.match_category);
 
     const MainBannerName = uuid() + "" + Blog.mainbanner.name;
