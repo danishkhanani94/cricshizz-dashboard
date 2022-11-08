@@ -15,6 +15,7 @@ function App() {
     team_b: "",
     match_category: "",
     mainbanner: {},
+    event_date:""
   });
 
   const InsertGallery = () => {
@@ -24,6 +25,7 @@ function App() {
       Gallery.team_a === "" ||
       Gallery.team_b === "" ||
       Gallery.match_category === "" ||
+      Gallery.event_date === "" ||
       Gallery.mainbanner.size === undefined
     ) {
       SetAlert(
@@ -47,6 +49,7 @@ function App() {
     formData.append("album_name", Gallery.album_name);
     formData.append("team_a", Gallery.team_a);
     formData.append("team_b", Gallery.team_b);
+    formData.append("event_date", Gallery.event_date);
     formData.append("match_category", Gallery.match_category);
 
     const MainBannerName = uuid() + "" + Gallery.mainbanner.name;

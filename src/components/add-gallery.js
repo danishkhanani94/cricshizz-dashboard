@@ -114,7 +114,7 @@ const AddGallery = ({ InsertGallery, Gallery, SetGallery, SetAlert }) => {
                                 ...Gallery,
                                 innerimages: e.target.files,
                               });
-                              console.log(e.target.files)
+                              console.log(e.target.files);
                             }
                           }}
                         />
@@ -182,6 +182,26 @@ const AddGallery = ({ InsertGallery, Gallery, SetGallery, SetAlert }) => {
                           );
                         })}
                       </select>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="inputAddress">
+                        Date
+                      </label>
+                      <div className="input-group">
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="inputGroupFile04"
+                          aria-describedby="inputGroupFileAddon04"
+                          aria-label="Upload"
+                          onChange={(e) => {
+                            SetGallery({
+                              ...Gallery,
+                              event_date: e.target.value,
+                            });
+                          }}
+                        />
+                      </div>
                     </div>
                     <button
                       type="submit"
