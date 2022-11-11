@@ -1,7 +1,13 @@
 import axios from "axios";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { useEffect, useState } from "react";
-const AddGallery = ({ InsertGallery, Gallery, SetGallery, SetAlert }) => {
+const AddGallery = ({
+  InsertGallery,
+  Gallery,
+  SetGallery,
+  SetAlert,
+  filesUploaded,
+}) => {
   const [Teams, SetTeams] = useState([]);
   const [Category, SetCategory] = useState([]);
   useEffect(() => {
@@ -202,6 +208,17 @@ const AddGallery = ({ InsertGallery, Gallery, SetGallery, SetAlert }) => {
                           }}
                         />
                       </div>
+                    </div>
+                    <div className="mb-3">
+                      {Gallery?.innerimages?.length > 0 ? (
+                        <label className="form-label">
+                          Total Files : {Gallery?.innerimages?.length} <br />
+                          Total Uploaded : {filesUploaded?.success} <br />
+                          Failed Uploaded : {filesUploaded?.failed} <br />
+                        </label>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <button
                       type="submit"

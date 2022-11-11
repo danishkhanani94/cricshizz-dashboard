@@ -8,6 +8,11 @@ import { useState } from "react";
 
 function App() {
   const [Alert, SetAlert] = useState();
+  const [filesUploaded, setFileUploaded] = useState({
+    success: [],
+    succes: 0,
+    failed: [],
+  });
   const [Gallery, SetGallery] = useState({
     album_name: "",
     innerimages: [],
@@ -15,7 +20,7 @@ function App() {
     team_b: "",
     match_category: "",
     mainbanner: {},
-    event_date:""
+    event_date: "",
   });
 
   const InsertGallery = () => {
@@ -66,6 +71,8 @@ function App() {
       UploadFile({
         files: [v],
         name: [InnerBannerName],
+        setFileUploaded,
+        filesUploaded,
       });
     }
     formData.append("innerimages", JSON.stringify(tmp_imagearray));
@@ -124,6 +131,7 @@ function App() {
           Gallery={Gallery}
           SetGallery={SetGallery}
           SetAlert={SetAlert}
+          filesUploaded={filesUploaded}
         />
       </Layout>
       {Alert}
