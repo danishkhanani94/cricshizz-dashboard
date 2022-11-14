@@ -1,5 +1,5 @@
 import axios from "axios";
-import SweetAlert from "react-bootstrap-sweetalert";
+import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 const AddGallery = ({
   InsertGallery,
@@ -10,6 +10,8 @@ const AddGallery = ({
 }) => {
   const [Teams, SetTeams] = useState([]);
   const [Category, SetCategory] = useState([]);
+  const [cookie] = useCookies(["cricshizz-web"]);
+
   useEffect(() => {
     const GetData = axios.get(
       `${process.env.REACT_APP_SERVER_URL}teams/`,
@@ -17,6 +19,7 @@ const AddGallery = ({
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
     );
@@ -34,6 +37,7 @@ const AddGallery = ({
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
     );

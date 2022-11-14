@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Header = (props) => {
+  const [cookie, removeCookie] = useCookies(["cricshizz-web"]);
+  const LogedOut = () => {
+    removeCookie("user");
+    window.location.replace("/login");
+  };
   return (
     <>
       <nav className="sidebar vertical-scroll  ps-container ps-theme-default ps-active-y">
-        <div className="logo d-flex justify-content-between">
+        <div className="logo d-flex justify-content-center">
           <Link to="/">
-            <img src="img/logo.png" alt="" />
+            <img src="/cricshizz.png" alt="" height={`50px`}/>
           </Link>
           <div className="sidebar_close_icon d-lg-none">
             <i className="ti-close"></i>
@@ -75,10 +81,17 @@ const Header = (props) => {
                     <img src="img/client_img.png" alt="#" />
                     <div className="profile_info_iner">
                       <div className="profile_author_name">
-                        <h5>Dr. Robar Smith</h5>
+                        <h5>{props?.user?.name}</h5>
                       </div>
                       <div className="profile_info_details">
-                        <Link to="/login">Log Out </Link>
+                        <Link
+                          to={"#0"}
+                          onClick={() => {
+                            LogedOut();
+                          }}
+                        >
+                          Log Out{" "}
+                        </Link>
                       </div>
                     </div>
                   </div>

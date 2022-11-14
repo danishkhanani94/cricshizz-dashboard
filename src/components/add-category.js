@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 import SweetAlert from "react-bootstrap-sweetalert";
+import { useCookies } from "react-cookie";
 
 const AddCategory = () => {
   const [Alert, SetAlert] = useState();
+  const [cookie] = useCookies(["cricshizz-web"]);
 
   const [Category, SetCategory] = useState({
     name: "",
@@ -37,6 +39,7 @@ const AddCategory = () => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
     );

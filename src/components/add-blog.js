@@ -1,11 +1,12 @@
 import axios from "axios";
-import SweetAlert from "react-bootstrap-sweetalert";
+import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
   console.log(Blog);
   const [Teams, SetTeams] = useState([]);
   const [Category, SetCategory] = useState([]);
   const [Gallery, SetGallery] = useState([]);
+  const [cookie] = useCookies(["cricshizz-web"]);
 
   useEffect(() => {
     const GetData = axios.get(
@@ -14,6 +15,7 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
     );
@@ -31,6 +33,7 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
     );
@@ -48,6 +51,7 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
     );

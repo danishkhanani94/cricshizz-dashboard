@@ -5,8 +5,10 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import UploadFile from "../components/UploadFile";
 import uuid from "react-uuid";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 function App() {
+  const [cookie] = useCookies(["cricshizz-web"]);
   const [Alert, SetAlert] = useState();
   const [filesUploaded, setFileUploaded] = useState({
     success: [],
@@ -83,6 +85,7 @@ function App() {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
     );

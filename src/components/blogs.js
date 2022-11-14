@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const Blogs = () => {
   const [Blogs, SetBlogs] = useState([]);
+  const [cookie] = useCookies(["cricshizz-web"]);
 
   useEffect(() => {
     async function getBlogs() {
       await axios
-        .get(`${process.env.REACT_APP_SERVER_URL}blogs/all`)
+        .get(`${process.env.REACT_APP_SERVER_URL}blogs/all`, {
+          headers: { Authorization: `Bearer ${cookie?.user?.token}` },
+        })
         .then((res) => {
           SetBlogs(res.data[0].Data);
           console.log(res.data[0].Data);
@@ -18,7 +22,9 @@ const Blogs = () => {
   }, []);
   async function DeleteBlog(id, index) {
     await axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}blogs/${id}`)
+      .delete(`${process.env.REACT_APP_SERVER_URL}blogs/${id}`, {
+        headers: { Authorization: `Bearer ${cookie?.user?.token}` },
+      })
       .then((res) => {
         if (res.data[0].success) {
           Blogs.splice(index, 1);

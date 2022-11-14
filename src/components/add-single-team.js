@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 import SweetAlert from "react-bootstrap-sweetalert";
+import { useCookies } from "react-cookie";
 
 const AddTeam = () => {
   const [Alert, SetAlert] = useState();
+  const [cookie] = useCookies(["cricshizz-web"]);
 
   const [Team, SetTeam] = useState({
     name: "",
@@ -33,10 +35,13 @@ const AddTeam = () => {
 
     const Upload = axios.post(
       `${process.env.REACT_APP_SERVER_URL}teams/add-name`,
-      formData,
+      {
+        formData,
+      },
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
     );

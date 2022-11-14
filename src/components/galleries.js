@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 
 const Galleries = () => {
   const [Gallerie, SetGallerie] = useState([]);
+  const [cookie] = useCookies(["cricshizz-web"]);
 
   useEffect(() => {
     async function getGallery() {
       await axios
-        .get(`${process.env.REACT_APP_SERVER_URL}gallery/all`)
+        .get(`${process.env.REACT_APP_SERVER_URL}gallery/all`, {
+          headers: { Authorization: `Bearer ${cookie?.user?.token}` },
+        })
         .then((res) => {
           SetGallerie(res.data[0].Data);
           console.log(res.data[0].Data);
@@ -18,7 +22,9 @@ const Galleries = () => {
   }, []);
   async function DeleteGallery(id, index) {
     await axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}gallery/${id}`)
+      .delete(`${process.env.REACT_APP_SERVER_URL}gallery/${id}`, {
+        headers: { Authorization: `Bearer ${cookie?.user?.token}` },
+      })
       .then((res) => {
         if (res.data[0].success) {
           Gallerie.splice(index, 1);
