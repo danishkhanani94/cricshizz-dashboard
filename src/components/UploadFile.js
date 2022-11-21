@@ -11,12 +11,10 @@ function UploadFile({ props, files, name, filesUploaded, setFileUploaded }) {
   formData.append("upload_Files", true);
 
   const Upload = axios.post(
-    "https://cricshizz.com.pk/bucket/",
+    "https://cricshizz.com.pk/bucket/index.php",
     formData,
     {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      headers: {},
     }
   );
   Upload.then((r) => {
