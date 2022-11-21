@@ -19,7 +19,7 @@ const Login = () => {
         { user_name: User.user_name, password: User.password },
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         }
       )

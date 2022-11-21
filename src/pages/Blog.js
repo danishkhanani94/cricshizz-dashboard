@@ -76,7 +76,7 @@ function App() {
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
