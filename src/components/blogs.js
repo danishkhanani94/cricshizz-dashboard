@@ -90,14 +90,14 @@ const Blogs = () => {
                                 <td>{v?.match_category}</td>
                                 <td>{v?.uploaded_by}</td>
                                 <td>
-                                  <button
+                                  {/* <button
                                     className="btn btn-danger"
                                     onClick={() => {
                                       DeleteBlog(v.id, i);
                                     }}
                                   >
                                     Delete
-                                  </button>
+                                  </button> */}
                                 </td>
                               </tr>
                             );

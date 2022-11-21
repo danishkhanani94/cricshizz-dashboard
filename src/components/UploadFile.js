@@ -11,7 +11,7 @@ function UploadFile({ props, files, name, filesUploaded, setFileUploaded }) {
   formData.append("upload_Files", true);
 
   const Upload = axios.post(
-    "https://testing.cricshizz.com.pk/bucket/",
+    "https://cricshizz.com.pk/bucket/",
     formData,
     {
       headers: {
