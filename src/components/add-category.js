@@ -30,7 +30,7 @@ const AddCategory = () => {
       );
       return false;
     }
-    const formData = new FormData();
+    const formData = new URLSearchParams();
     formData.append("name", Category.name);
 
     const Upload = axios.post(
@@ -38,7 +38,7 @@ const AddCategory = () => {
       formData,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }

@@ -50,7 +50,7 @@ function App() {
       );
       return false;
     }
-    const formData = new FormData();
+    const formData = new URLSearchParams();
     formData.append("title", Blog.title);
     formData.append("description", Blog.description);
     formData.append("longdescription", Blog.longdescription);
@@ -76,7 +76,7 @@ function App() {
       formData,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }

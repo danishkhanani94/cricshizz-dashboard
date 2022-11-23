@@ -14,32 +14,31 @@ function UploadFile({ props, files, name, filesUploaded, setFileUploaded }) {
     "https://cricshizz.com.pk/bucket/index.php",
     formData,
     {
-      headers: {},
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     }
   );
   Upload.then((r) => {
     const Result = r.data;
     if (Result?.success) {
       if (setFileUploaded) {
-        setFileUploaded({
-          ...filesUploaded,
-          success: filesUploaded.success.push(1),
-        });
+        var tmp_array = { ...filesUploaded };
+        tmp_array.success.push(1);
+        setFileUploaded({ ...tmp_array });
       }
     } else {
       if (setFileUploaded) {
-        setFileUploaded({
-          ...filesUploaded,
-          failed: filesUploaded.failed.push(1),
-        });
+        var tmp_array = { ...filesUploaded };
+        tmp_array.failed.push(1);
+        setFileUploaded({ ...tmp_array });
       }
     }
   }).catch((err) => {
     if (setFileUploaded) {
-      setFileUploaded({
-        ...filesUploaded,
-        failed: filesUploaded.failed.push(1),
-      });
+      var tmp_array = { ...filesUploaded };
+      tmp_array.failed.push(1);
+      setFileUploaded({ ...tmp_array });
     }
   });
 }

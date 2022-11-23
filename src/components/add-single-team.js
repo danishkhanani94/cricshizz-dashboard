@@ -30,17 +30,15 @@ const AddTeam = () => {
       );
       return false;
     }
-    const formData = new FormData();
+    const formData = new URLSearchParams();
     formData.append("name", Team.name);
 
     const Upload = axios.post(
       `${process.env.REACT_APP_SERVER_URL}teams/add-name`,
-      {
-        formData,
-      },
+      formData,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }

@@ -217,8 +217,10 @@ const AddGallery = ({
                       {Gallery?.innerimages?.length > 0 ? (
                         <label className="form-label">
                           Total Files : {Gallery?.innerimages?.length} <br />
-                          Total Uploaded : {filesUploaded?.success} <br />
-                          Failed Uploaded : {filesUploaded?.failed} <br />
+                          Total Uploaded : {filesUploaded?.success?.length}{" "}
+                          <br />
+                          Failed Uploaded : {filesUploaded?.failed?.length}{" "}
+                          <br />
                         </label>
                       ) : (
                         ""

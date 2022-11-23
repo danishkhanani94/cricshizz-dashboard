@@ -52,7 +52,7 @@ function App() {
       );
       return false;
     }
-    const formData = new FormData();
+    const formData = new URLSearchParams();
     formData.append("album_name", Gallery.album_name);
     formData.append("team_a", Gallery.team_a);
     formData.append("team_b", Gallery.team_b);
@@ -84,7 +84,7 @@ function App() {
       formData,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${cookie?.user?.token}`,
         },
       }
