@@ -124,7 +124,6 @@ const AddGallery = ({
                                 ...Gallery,
                                 innerimages: e.target.files,
                               });
-                              console.log(e.target.files);
                             }
                           }}
                         />
