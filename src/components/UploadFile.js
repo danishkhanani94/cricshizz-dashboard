@@ -16,32 +16,31 @@ async function UploadFile({
   });
   formData.append("upload_Files", true);
 
-  const Upload = await axios.post(
-    "https://bucket.cricshizz.com.pk/api/upload_file",
-    formData
-  );
-  console.log(Upload);
-  // Upload.then((r) => {
-  //   const Result = r.data;
-  //   if (Result?.success) {
-  //     if (setFileUploaded) {
-  //       var tmp_array = { ...filesUploaded };
-  //       tmp_array.success.push(1);
-  //       setFileUploaded({ ...tmp_array });
-  //     }
-  //   } else {
-  //     if (setFileUploaded) {
-  //       var tmp_array = { ...filesUploaded };
-  //       tmp_array.failed.push(1);
-  //       setFileUploaded({ ...tmp_array });
-  //     }
-  //   }
-  // }).catch(() => {
-  //   if (setFileUploaded) {
-  //     var tmp_array = { ...filesUploaded };
-  //     tmp_array.failed.push(1);
-  //     setFileUploaded({ ...tmp_array });
-  //   }
-  // });
+  const Upload = await axios.post(process.env.REACT_APP_BUCKET_URL, formData);
+  if (Upload.status === 200) {
+    const Result = Upload.data;
+    if (Result?.success) {
+      if (setFileUploaded) {
+        var tmp_array = { ...filesUploaded };
+        tmp_array.success = Result.TotalFilesUpload;
+        tmp_array.failed = Result.TotalFilesFailed;
+        setFileUploaded({ ...tmp_array });
+      }
+    } else {
+      if (setFileUploaded) {
+        var tmp_array = { ...filesUploaded };
+        tmp_array.success = Result.TotalFilesUpload;
+        tmp_array.failed = Result.TotalFilesFailed;
+        setFileUploaded({ ...tmp_array });
+      }
+    }
+  } else {
+    if (setFileUploaded) {
+      var tmp_array = { ...filesUploaded };
+      tmp_array.failed = tmp_array.success;
+      tmp_array.success = 0;
+      setFileUploaded({ ...tmp_array });
+    }
+  }
 }
 export default UploadFile;

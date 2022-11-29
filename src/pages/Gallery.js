@@ -11,9 +11,9 @@ function App() {
   const [cookie] = useCookies(["cricshizz-web"]);
   const [Alert, SetAlert] = useState();
   const [filesUploaded, setFileUploaded] = useState({
-    success: [],
+    success: 0,
     succes: 0,
-    failed: [],
+    failed: 0,
   });
   const [Gallery, SetGallery] = useState({
     album_name: "",
@@ -65,19 +65,21 @@ function App() {
       files: [Gallery.mainbanner],
       name: [MainBannerName],
     });
+    const tmp_imagenamearray = [];
     const tmp_imagearray = [];
     for (let i = 0; i < Gallery.innerimages.length; i++) {
       const v = Gallery.innerimages[i];
       const InnerBannerName = uuid() + "" + v.name;
-      tmp_imagearray.push(InnerBannerName);
-      UploadFile({
-        files: [v],
-        name: [InnerBannerName],
-        setFileUploaded,
-        filesUploaded,
-      });
+      tmp_imagenamearray.push(InnerBannerName);
+      tmp_imagearray.push(v);
     }
-    formData.append("innerimages", JSON.stringify(tmp_imagearray));
+    UploadFile({
+      files: tmp_imagearray,
+      name: tmp_imagenamearray,
+      setFileUploaded,
+      filesUploaded,
+    });
+    formData.append("innerimages", JSON.stringify(tmp_imagenamearray));
 
     const Upload = axios.post(
       `${process.env.REACT_APP_SERVER_URL}gallery/add`,
