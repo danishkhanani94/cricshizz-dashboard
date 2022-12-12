@@ -22,6 +22,7 @@ function App() {
     innerbanner: {},
     mainbanner: {},
     match_summary: "",
+    fb_gallery: ""
   });
 
   const InsertBlog = () => {
@@ -62,6 +63,7 @@ function App() {
     formData.append("gallery", Blog.gallery);
     formData.append("match_category", Blog.match_category);
     formData.append("match_summary", Blog.match_summary);
+    formData.append("fb_gallery", Blog.fb_gallery);
 
     const MainBannerName = uuid() + "" + Blog.mainbanner.name;
     const InnerBanerName = uuid() + "" + Blog.innerbanner.name;

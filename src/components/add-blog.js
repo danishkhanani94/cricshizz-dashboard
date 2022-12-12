@@ -258,6 +258,21 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">
+                        Facebook Gallery
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputAddress"
+                        placeholder=""
+                        value={Blog?.fb_gallery}
+                        onChange={(e) => {
+                          SetBlog({ ...Blog, fb_gallery: e.target.value });
+                        }}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="inputAddress">
                         Match Summary
                       </label>
                       <input
