@@ -21,6 +21,7 @@ function App() {
     match_category: "",
     innerbanner: {},
     mainbanner: {},
+    match_summary: "",
   });
 
   const InsertBlog = () => {
@@ -30,6 +31,7 @@ function App() {
       Blog.longdescription === "" ||
       Blog.uploaded_by === "" ||
       Blog.match_category === "" ||
+      Blog.match_summary === "" ||
       Blog.mainbanner.size === undefined ||
       Blog.innerbanner.size === undefined
     ) {
@@ -59,6 +61,7 @@ function App() {
     formData.append("team_b", Blog.team_b);
     formData.append("gallery", Blog.gallery);
     formData.append("match_category", Blog.match_category);
+    formData.append("match_summary", Blog.match_summary);
 
     const MainBannerName = uuid() + "" + Blog.mainbanner.name;
     const InnerBanerName = uuid() + "" + Blog.innerbanner.name;

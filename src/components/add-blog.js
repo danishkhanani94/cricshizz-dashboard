@@ -258,6 +258,21 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">
+                        Match Summary
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputAddress"
+                        placeholder=""
+                        value={Blog?.match_summary}
+                        onChange={(e) => {
+                          SetBlog({ ...Blog, match_summary: e.target.value });
+                        }}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="inputAddress">
                         Posted By
                       </label>
                       <input
