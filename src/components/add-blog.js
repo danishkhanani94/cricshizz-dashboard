@@ -301,6 +301,21 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
                         }}
                       />
                     </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="inputAddress">
+                        Publish Date
+                      </label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        id="inputAddress"
+                        placeholder=""
+                        value={Blog?.publish_date}
+                        onChange={(e) => {
+                          SetBlog({ ...Blog, publish_date: e.target.value });
+                        }}
+                      />
+                    </div>
                     <button
                       type="submit"
                       className="btn btn-primary"
