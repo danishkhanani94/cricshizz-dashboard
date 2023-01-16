@@ -73,7 +73,7 @@ function App() {
       formData.append("file_0", file);
       formData.append("name_0", name);
       formData.append("upload_Files", true);
-
+ 
       return new Promise(async (resolve) => {
         const Upload = await axios.post(
           process.env.REACT_APP_BUCKET_URL,

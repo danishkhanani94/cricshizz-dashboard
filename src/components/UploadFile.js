@@ -16,7 +16,10 @@ async function UploadFile({
   });
   formData.append("upload_Files", true);
 
-  const Upload = await axios.post(process.env.REACT_APP_BUCKET_URL_MULTI, formData);
+  const Upload = await axios.post(
+    process.env.REACT_APP_BUCKET_URL_MULTI,
+    formData
+  );
   if (Upload.status === 200) {
     const Result = Upload.data;
     if (Result?.success) {
@@ -35,6 +38,7 @@ async function UploadFile({
       }
     }
   } else {
+    console.log(Upload);
     if (setFileUploaded) {
       var tmp_array = { ...filesUploaded };
       tmp_array.failed = tmp_array.success;

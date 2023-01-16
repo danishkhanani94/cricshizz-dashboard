@@ -2,14 +2,13 @@ import AddBlog from "../components/add-blog";
 import Layout from "../Layouts/Layout";
 import axios from "axios";
 import SweetAlert from "react-bootstrap-sweetalert";
-import UploadFile from "../components/UploadFile";
-import uuid from "react-uuid";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 
 function App() {
   const [cookie] = useCookies(["cricshizz-web"]);
   const [Alert, SetAlert] = useState();
+
   const [Blog, SetBlog] = useState({
     title: "",
     description: "",
@@ -19,14 +18,15 @@ function App() {
     team_b: "",
     gallery: null,
     match_category: "",
-    innerbanner: {},
-    mainbanner: {},
+    innerbanner: "",
+    mainbanner: "",
     match_summary: "",
     fb_gallery: "",
-    publish_date:""
+    publish_date: "",
   });
 
   const InsertBlog = () => {
+    console.log(Blog);
     if (
       Blog.title === "" ||
       Blog.description === "" ||
@@ -34,8 +34,8 @@ function App() {
       Blog.uploaded_by === "" ||
       Blog.match_category === "" ||
       Blog.match_summary === "" ||
-      Blog.mainbanner.size === undefined ||
-      Blog.innerbanner.size === undefined
+      Blog.mainbanner === "" ||
+      Blog.innerbanner === ""
     ) {
       SetAlert(
         <SweetAlert
@@ -67,17 +67,11 @@ function App() {
     formData.append("fb_gallery", Blog.fb_gallery);
     formData.append("publish_date", Blog.publish_date);
 
-    const MainBannerName = uuid() + "" + Blog.mainbanner.name;
-    const InnerBanerName = uuid() + "" + Blog.innerbanner.name;
+    const MainBannerName = Blog.mainbanner;
+    const InnerBanerName = Blog.innerbanner;
 
     formData.append("innerbanner", InnerBanerName);
     formData.append("mainbanner", MainBannerName);
-
-    UploadFile({
-      files: [Blog.mainbanner, Blog.innerbanner],
-      name: [MainBannerName, InnerBanerName],
-    });
-
     const Upload = axios.post(
       `${process.env.REACT_APP_SERVER_URL}blogs/add-blog`,
       formData,

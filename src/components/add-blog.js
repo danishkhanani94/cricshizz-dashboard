@@ -1,13 +1,42 @@
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
+import uuid from "react-uuid";
+
 const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
-  console.log(Blog);
   const [Teams, SetTeams] = useState([]);
   const [Category, SetCategory] = useState([]);
   const [Gallery, SetGallery] = useState([]);
   const [cookie] = useCookies(["cricshizz-web"]);
 
+  window.$("#inner_banner_di").uploadFile({
+    url: "https://bucket.cricshizz.com.pk",
+    fileName: "file_0",
+    acceptFiles: "image/*",
+    dynamicFormData: function (data) {
+      var uuid_name = uuid() + data[0];
+      SetBlog({
+        ...Blog,
+        innerbanner: uuid_name,
+      });
+      var data = { upload_Files: true, name_0: uuid_name };
+      return data;
+    },
+  });
+  window.$("#main_banner_di").uploadFile({
+    url: "https://bucket.cricshizz.com.pk",
+    fileName: "file_0",
+    acceptFiles: "image/*",
+    dynamicFormData: function (data) {
+      var uuid_name = uuid() + data[0];
+      SetBlog({
+        ...Blog,
+        mainbanner: uuid_name,
+      });
+      var data = { upload_Files: true, name_0: uuid_name };
+      return data;
+    },
+  });
   useEffect(() => {
     const GetData = axios.get(
       `${process.env.REACT_APP_SERVER_URL}teams/`,
@@ -133,45 +162,13 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
                       <label className="form-label" htmlFor="inputAddress">
                         Main Banner
                       </label>
-                      <div className="input-group">
-                        <input
-                          type="file"
-                          className="form-control"
-                          id="inputGroupFile04"
-                          aria-describedby="inputGroupFileAddon04"
-                          aria-label="Upload"
-                          onChange={(e) => {
-                            if (e.target.files[0]) {
-                              SetBlog({
-                                ...Blog,
-                                mainbanner: e.target.files[0],
-                              });
-                            }
-                          }}
-                        />
-                      </div>
+                      <div id="main_banner_di"></div>
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">
                         Inner Banner
                       </label>
-                      <div className="input-group">
-                        <input
-                          type="file"
-                          className="form-control"
-                          id="inputGroupFile04"
-                          aria-describedby="inputGroupFileAddon04"
-                          aria-label="Upload"
-                          onChange={(e) => {
-                            if (e.target.files[0]) {
-                              SetBlog({
-                                ...Blog,
-                                innerbanner: e.target.files[0],
-                              });
-                            }
-                          }}
-                        />
-                      </div>
+                      <div id="inner_banner_di"></div>
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="inputAddress">
