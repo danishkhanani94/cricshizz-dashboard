@@ -80,7 +80,7 @@ const Galleries = () => {
                           {Gallerie?.map((v, i) => {
                             return (
                               <tr key={i}>
-                                <th scope="row">{i + 1}</th>
+                                <th scope="row">{v.id}</th>
                                 <th scope="row">
                                   <Link to="/" className="question_content">
                                     {v?.album_name}

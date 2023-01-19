@@ -29,12 +29,11 @@ function App() {
   function InsertGallery() {
     if (
       Gallery.album_name === "" ||
-      Gallery.innerimages.length === 0 ||
       Gallery.team_a === "" ||
       Gallery.team_b === "" ||
       Gallery.match_category === "" ||
       Gallery.event_date === "" ||
-      Gallery.mainbanner.size === undefined
+      Gallery.mainbanner === ""
     ) {
       SetAlert(
         <SweetAlert
@@ -59,99 +58,72 @@ function App() {
     formData.append("team_b", Gallery.team_b);
     formData.append("event_date", Gallery.event_date);
     formData.append("match_category", Gallery.match_category);
+    formData.append("mainbanner", Gallery.mainbanner);
 
-    const MainBannerName = uuid() + "" + Gallery.mainbanner.name;
-    formData.append("mainbanner", MainBannerName);
-    UploadFile({
-      files: [Gallery.mainbanner],
-      name: [MainBannerName],
-    });
     const tmp_imagenamearray = [];
 
-    const delay = async (name, file) => {
-      const formData = new FormData();
-      formData.append("file_0", file);
-      formData.append("name_0", name);
-      formData.append("upload_Files", true);
- 
-      return new Promise(async (resolve) => {
-        const Upload = await axios.post(
-          process.env.REACT_APP_BUCKET_URL,
-          formData
-        );
-        if (Upload.status === 200) {
-          const Result = Upload.data;
-          if (Result?.success) {
-            SetFileUploadedSuccess((arr) => [...arr, `${arr.length}`]);
-          } else {
-            SetFileUploadedFailed((arr) => [...arr, `${arr.length}`]);
-          }
-        } else {
-          SetFileUploadedFailed((arr) => [...arr, `${arr.length}`]);
-        }
-        resolve();
-      });
-    };
-    async function makeALoopWait() {
-      for (let i = 0; i < Gallery.innerimages.length; i++) {
-        const v = Gallery.innerimages[i];
-        const InnerBannerName = uuid() + "" + v.name;
-        tmp_imagenamearray.push(InnerBannerName);
-        await delay(InnerBannerName, v);
+    formData.append("innerimages", JSON.stringify(tmp_imagenamearray));
+    const Upload = axios.post(
+      `${process.env.REACT_APP_SERVER_URL}gallery/add`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${cookie?.user?.token}`,
+        },
       }
-      final_submit();
-    }
-    makeALoopWait();
-    function final_submit() {
-      formData.append("innerimages", JSON.stringify(tmp_imagenamearray));
-      const Upload = axios.post(
-        `${process.env.REACT_APP_SERVER_URL}gallery/add`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${cookie?.user?.token}`,
-          },
-        }
-      );
-      Upload.then((r) => {
-        var Result = r.data[0];
-        if (Result?.success) {
-          SetAlert(
-            <SweetAlert
-              success
-              show={true}
-              allowEscape={true}
-              closeOnClickOutside={true}
-              title={Result.mess}
-              onConfirm={() => {
-                SetAlert();
-              }}
-              onCancel={() => {
-                SetAlert();
-              }}
-            ></SweetAlert>
-          );
-        } else {
-          SetAlert(
-            <SweetAlert
-              warning
-              show={true}
-              allowEscape={true}
-              closeOnClickOutside={true}
-              title={Result.mess}
-              onConfirm={() => {
-                SetAlert();
-              }}
-              onCancel={() => {
-                SetAlert();
-              }}
-            ></SweetAlert>
-          );
-        }
-      });
-    }
+    );
+    Upload.then((r) => {
+      var Result = r.data[0];
+      if (Result?.success) {
+        SetAlert(
+          <SweetAlert
+            success
+            show={true}
+            allowEscape={true}
+            closeOnClickOutside={true}
+            title={Result.mess}
+            onConfirm={() => {
+              SetAlert();
+            }}
+            onCancel={() => {
+              SetAlert();
+            }}
+          ></SweetAlert>
+        );
+      } else {
+        SetAlert(
+          <SweetAlert
+            warning
+            show={true}
+            allowEscape={true}
+            closeOnClickOutside={true}
+            title={Result.mess}
+            onConfirm={() => {
+              SetAlert();
+            }}
+            onCancel={() => {
+              SetAlert();
+            }}
+          ></SweetAlert>
+        );
+      }
+    });
   }
+  window.$("#inner_banner_di").uploadFile({
+    url: "https://bucket.cricshizz.com.pk",
+    fileName: "file_0",
+    acceptFiles: "image/*",
+    dynamicFormData: function (data) {
+      var uuid_name = uuid() + data[0];
+      SetGallery({
+        ...Gallery,
+        mainbanner: uuid_name,
+      });
+      var data = { upload_Files: true, name_0: uuid_name };
+      return data;
+    },
+  });
   useEffect(() => {
     const GetData = axios.get(
       `${process.env.REACT_APP_SERVER_URL}teams/`,
@@ -229,46 +201,7 @@ function App() {
                         <label className="form-label" htmlFor="inputAddress">
                           Main Banner
                         </label>
-                        <div className="input-group">
-                          <input
-                            type="file"
-                            className="form-control"
-                            id="inputGroupFile04"
-                            aria-describedby="inputGroupFileAddon04"
-                            aria-label="Upload"
-                            onChange={(e) => {
-                              if (e.target.files[0]) {
-                                SetGallery({
-                                  ...Gallery,
-                                  mainbanner: e.target.files[0],
-                                });
-                              }
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label" htmlFor="inputAddress">
-                          Album Images
-                        </label>
-                        <div className="input-group">
-                          <input
-                            type="file"
-                            multiple
-                            className="form-control"
-                            id="inputGroupFile04"
-                            aria-describedby="inputGroupFileAddon04"
-                            aria-label="Upload"
-                            onChange={(e) => {
-                              if (e.target.files) {
-                                SetGallery({
-                                  ...Gallery,
-                                  innerimages: e.target.files,
-                                });
-                              }
-                            }}
-                          />
-                        </div>
+                        <div id="inner_banner_di"></div>
                       </div>
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
@@ -358,17 +291,6 @@ function App() {
                             }}
                           />
                         </div>
-                      </div>
-                      <div className="mb-3">
-                        {Gallery?.innerimages?.length > 0 ? (
-                          <label className="form-label">
-                            Total Files : {Gallery?.innerimages?.length} <br />
-                            Total Uploaded : {fsuccess?.length} <br />
-                            Failed Uploaded : {ffailed?.length} <br />
-                          </label>
-                        ) : (
-                          ""
-                        )}
                       </div>
                       <button
                         type="submit"
