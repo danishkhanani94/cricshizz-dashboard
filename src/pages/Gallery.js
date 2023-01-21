@@ -24,6 +24,7 @@ function App() {
     match_category: "",
     mainbanner: {},
     event_date: "",
+    match_summary_o: ""
   });
 
   function InsertGallery() {
@@ -57,6 +58,7 @@ function App() {
     formData.append("team_a", Gallery.team_a);
     formData.append("team_b", Gallery.team_b);
     formData.append("event_date", Gallery.event_date);
+    formData.append("match_summary_o", Gallery.match_summary_o);
     formData.append("match_category", Gallery.match_category);
     formData.append("mainbanner", Gallery.mainbanner);
 
@@ -193,6 +195,24 @@ function App() {
                             SetGallery({
                               ...Gallery,
                               album_name: e.target.value,
+                            });
+                          }}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label" htmlFor="inputAddress">
+                          Summary Url
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="inputAddress"
+                          placeholder=""
+                          value={Gallery?.match_summary_o}
+                          onChange={(e) => {
+                            SetGallery({
+                              ...Gallery,
+                              match_summary_o: e.target.value,
                             });
                           }}
                         />

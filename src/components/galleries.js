@@ -88,14 +88,14 @@ const Galleries = () => {
                                 </th>
                                 <td>{v?.match_category}</td>
                                 <td>
-                                  {/* <button
+                                  <button
                                     className="btn btn-danger"
                                     onClick={() => {
                                       DeleteGallery(v.id, i);
                                     }}
                                   >
                                     Delete
-                                  </button> */}
+                                  </button>
                                 </td>
                               </tr>
                             );
