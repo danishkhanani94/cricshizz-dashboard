@@ -39,7 +39,7 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
   });
   useEffect(() => {
     const GetData = axios.get(
-      `${process.env.REACT_APP_SERVER_URL}teams/`,
+      `${process.env.REACT_APP_SERVER_URL}team/all/`,
       {},
       {
         headers: {
@@ -53,7 +53,6 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
       if (Result?.success) {
         SetTeams(Result.Data);
       } else {
-        console.log(Result);
       }
     });
     const GetDataCat = axios.get(
@@ -71,7 +70,6 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
       if (Result?.success) {
         SetCategory(Result.Data);
       } else {
-        console.log(Result);
       }
     });
     const GetDataGal = axios.get(
@@ -89,7 +87,6 @@ const AddBlog = ({ InsertBlog, Blog, SetBlog, SetAlert }) => {
       if (Result?.success) {
         SetGallery(Result.Data);
       } else {
-        console.log(Result);
       }
     });
   }, []);

@@ -8,11 +8,14 @@ import App from "./App";
 import Blog from "./pages/Blog";
 import BlogAll from "./pages/BlogsAll";
 import Login from "./pages/Login";
-import Team from "./pages/Team";
 import Category from "./pages/Category";
 import Gallery from "./pages/Gallery";
+import AddTeam from "./pages/AddTeam";
+import Teams from "./pages/Teams";
 import GalleryAll from "./pages/GalleryAll";
 import { CookiesProvider } from "react-cookie";
+import AddPlayer from "./pages/AddPlayer";
+import AllPlayers from "./pages/Players";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -23,10 +26,13 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/add-blog" element={<Blog />} />
         <Route path="/blogs" element={<BlogAll />} />
-        <Route path="/add-single-team" element={<Team />} />
         <Route path="/add-single-category" element={<Category />} />
         <Route path="/gallery" element={<GalleryAll />} />
         <Route path="/add-gallery" element={<Gallery />} />
+        <Route path="/add-player" element={<AddPlayer />} />
+        <Route path="/add-team" element={<AddTeam />} />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/players" element={<AllPlayers />} />
       </Routes>
     </BrowserRouter>
   </CookiesProvider>

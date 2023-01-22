@@ -29,7 +29,6 @@ const Login = () => {
           setCookie("user", Result.Data, { path: "/" });
           window.location.replace("/");
         } else {
-          console.log(Result);
           alert(Result.mess);
         }
       });

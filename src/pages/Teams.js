@@ -1,40 +1,41 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useCookies } from "react-cookie";
+import axios from "axios";
+import Layout from "../Layouts/Layout";
 
-const Blogs = () => {
-  const [Blogs, SetBlogs] = useState([]);
+const Teams = () => {
+  const [Teams, SetTeams] = useState([]);
   const [cookie] = useCookies(["cricshizz-web"]);
 
   useEffect(() => {
-    async function getBlogs() {
+    async function getTeams() {
       await axios
-        .get(`${process.env.REACT_APP_SERVER_URL}blogs/all`, {
+        .get(`${process.env.REACT_APP_SERVER_URL}team/all`, {
           headers: { Authorization: `Bearer ${cookie?.user?.token}` },
         })
         .then((res) => {
-          SetBlogs(res.data[0].Data);
+            SetTeams(res.data[0].Data);
         });
     }
-    getBlogs();
+    getTeams();
   }, []);
-  async function DeleteBlog(id, index) {
+  async function DeleteTeam(id, index) {
     await axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}blogs/${id}`, {
+      .delete(`${process.env.REACT_APP_SERVER_URL}team/${id}`, {
         headers: { Authorization: `Bearer ${cookie?.user?.token}` },
       })
       .then((res) => {
         if (res.data[0].success) {
-          Blogs.splice(index, 1);
-          SetBlogs([...Blogs]);
+            Teams.splice(index, 1);
+            SetTeams([...Teams]);
         } else {
           console.log("Error While Deleting :", res.data[0]);
         }
       });
   }
   return (
-    <>
+    <Layout>
       <div className="main_content_iner ">
         <div className="container-fluid p-0">
           <div className="row justify-content-center">
@@ -43,7 +44,7 @@ const Blogs = () => {
                 <div className="white_card_header">
                   <div className="box_header m-0">
                     <div className="main-title">
-                      <h3 className="m-0">Blogs</h3>
+                      <h3 className="m-0">Teams</h3>
                     </div>
                   </div>
                 </div>
@@ -55,7 +56,7 @@ const Blogs = () => {
                         <div className="serach_field_2"></div>
                         <div className="add_button ms-2">
                           <Link
-                            to="/add-blog"
+                            to="/add-team"
                             data-bs-toggle="modal"
                             data-bs-target="#addcategory"
                             className="btn_1"
@@ -70,33 +71,31 @@ const Blogs = () => {
                         <thead>
                           <tr>
                             <th scope="col">id</th>
-                            <th scope="col">title</th>
-                            <th scope="col">match category</th>
-                            <th scope="col">posted by</th>
+                            <th scope="col">name</th>
+                            <th scope="col">color</th>
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {Blogs?.map((v, i) => {
+                          {Teams?.map((v, i) => {
                             return (
                               <tr key={i}>
-                                <th scope="row">{i + 1}</th>
+                                <th scope="row">{v.id}</th>
                                 <th scope="row">
                                   <Link to="/" className="question_content">
-                                    {v?.title}
+                                    {v?.name}
                                   </Link>
                                 </th>
-                                <td>{v?.match_category}</td>
-                                <td>{v?.uploaded_by}</td>
+                                <td>{v?.color}</td>
                                 <td>
-                                  {/* <button
+                                  <button
                                     className="btn btn-danger"
                                     onClick={() => {
-                                      DeleteBlog(v.id, i);
+                                        DeleteTeam(v.id, i);
                                     }}
                                   >
                                     Delete
-                                  </button> */}
+                                  </button>
                                 </td>
                               </tr>
                             );
@@ -111,7 +110,7 @@ const Blogs = () => {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
-export default Blogs;
+export default Teams;

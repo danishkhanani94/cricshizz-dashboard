@@ -15,7 +15,6 @@ const Galleries = () => {
         })
         .then((res) => {
           SetGallerie(res.data[0].Data);
-          console.log(res.data[0].Data);
         });
     }
     getGallery();

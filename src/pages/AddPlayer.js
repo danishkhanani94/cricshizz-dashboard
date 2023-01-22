@@ -5,32 +5,27 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import uuid from "react-uuid";
 import { useCookies } from "react-cookie";
 
-function App() {
+function AddPlayer() {
   const [cookie] = useCookies(["cricshizz-web"]);
   const [Alert, SetAlert] = useState();
-
   const [Teams, SetTeams] = useState([]);
-  const [Category, SetCategory] = useState([]);
 
-  const [Gallery, SetGallery] = useState({
-    album_name: "",
-    innerimages: [],
-    team_a: "",
-    team_b: "",
-    match_category: "",
-    mainbanner: {},
-    event_date: "",
-    match_summary_o: ""
+  const [Player, SetPlayer] = useState({
+    name: "",
+    image: "",
+    category: "",
+    batting_style: "",
+    bowling_style: "",
+    team: "",
   });
 
-  function InsertGallery() {
+  function InsertPlayer() {
     if (
-      Gallery.album_name === "" ||
-      Gallery.team_a === "" ||
-      Gallery.team_b === "" ||
-      Gallery.match_category === "" ||
-      Gallery.event_date === "" ||
-      Gallery.mainbanner === ""
+      Player.name === "" ||
+      Player.category === "" ||
+      Player.batting_style === "" ||
+      Player.bowling_style === "" ||
+      Player.team === ""
     ) {
       SetAlert(
         <SweetAlert
@@ -50,19 +45,15 @@ function App() {
       return false;
     }
     const formData = new URLSearchParams();
-    formData.append("album_name", Gallery.album_name);
-    formData.append("team_a", Gallery.team_a);
-    formData.append("team_b", Gallery.team_b);
-    formData.append("event_date", Gallery.event_date);
-    formData.append("match_summary_o", Gallery.match_summary_o);
-    formData.append("match_category", Gallery.match_category);
-    formData.append("mainbanner", Gallery.mainbanner);
+    formData.append("name", Player.name);
+    formData.append("image", Player.image);
+    formData.append("category", Player.category);
+    formData.append("batting_style", Player.batting_style);
+    formData.append("bowling_style", Player.bowling_style);
+    formData.append("team", Player.team);
 
-    const tmp_imagenamearray = [];
-
-    formData.append("innerimages", JSON.stringify(tmp_imagenamearray));
     const Upload = axios.post(
-      `${process.env.REACT_APP_SERVER_URL}gallery/add`,
+      `${process.env.REACT_APP_SERVER_URL}player/add`,
       formData,
       {
         headers: {
@@ -108,19 +99,22 @@ function App() {
       }
     });
   }
-  window.$("#inner_banner_di").uploadFile({
-    url: "https://bucket.cricshizz.com.pk",
-    fileName: "file_0",
-    acceptFiles: "image/*",
-    dynamicFormData: function (data) {
-      var uuid_name = uuid() + data[0];
-      SetGallery({
-        ...Gallery,
-        mainbanner: uuid_name,
-      });
-      var data = { upload_Files: true, name_0: uuid_name };
-      return data;
-    },
+
+  useEffect(() => {
+    window.$("#inner_banner_ce").uploadFile({
+      url: "https://bucket.cricshizz.com.pk",
+      fileName: "file_0",
+      acceptFiles: "image/*",
+      dynamicFormData: function (data) {
+        var uuid_name = uuid() + data[0];
+        SetPlayer({
+          ...Player,
+          image: uuid_name,
+        });
+        var data = { upload_Files: true, name_0: uuid_name };
+        return data;
+      },
+    });
   });
   useEffect(() => {
     const GetData = axios.get(
@@ -140,23 +134,6 @@ function App() {
       } else {
       }
     });
-    const GetDataCat = axios.get(
-      `${process.env.REACT_APP_SERVER_URL}category/`,
-      {},
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${cookie?.user?.token}`,
-        },
-      }
-    );
-    GetDataCat.then((r) => {
-      var Result = r.data[0];
-      if (Result?.success) {
-        SetCategory(Result.Data);
-      } else {
-      }
-    });
   }, []);
   return (
     <>
@@ -169,7 +146,7 @@ function App() {
                   <div className="white_card_header">
                     <div className="box_header m-0">
                       <div className="main-title">
-                        <h3 className="m-0">Add Gallery</h3>
+                        <h3 className="m-0">Add Player</h3>
                       </div>
                     </div>
                   </div>
@@ -177,79 +154,92 @@ function App() {
                     <div className="card-body">
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
-                          Album Name
+                          Player Name
                         </label>
                         <input
                           type="text"
                           className="form-control"
                           id="inputAddress"
                           placeholder=""
-                          value={Gallery?.album_name}
+                          value={Player?.name}
                           onChange={(e) => {
-                            SetGallery({
-                              ...Gallery,
-                              album_name: e.target.value,
+                            SetPlayer({
+                              ...Player,
+                              name: e.target.value,
                             });
                           }}
                         />
                       </div>
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
-                          Summary Url
+                          Player Category
                         </label>
                         <input
                           type="text"
                           className="form-control"
                           id="inputAddress"
                           placeholder=""
-                          value={Gallery?.match_summary_o}
+                          value={Player?.category}
                           onChange={(e) => {
-                            SetGallery({
-                              ...Gallery,
-                              match_summary_o: e.target.value,
+                            SetPlayer({
+                              ...Player,
+                              category: e.target.value,
                             });
                           }}
                         />
                       </div>
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
-                          Main Banner
+                          Batting Style
                         </label>
-                        <div id="inner_banner_di"></div>
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label" htmlFor="inputAddress">
-                          Match Category
-                        </label>
-                        <select
+                        <input
+                          type="text"
                           className="form-control"
+                          id="inputAddress"
+                          placeholder=""
+                          value={Player?.batting_style}
                           onChange={(e) => {
-                            SetGallery({
-                              ...Gallery,
-                              match_category: e.target.value,
+                            SetPlayer({
+                              ...Player,
+                              batting_style: e.target.value,
                             });
                           }}
-                        >
-                          <option></option>
-                          {Category?.map((v, i) => {
-                            return (
-                              <option value={v.id} key={i}>
-                                {v.name}
-                              </option>
-                            );
-                          })}
-                        </select>
+                        />
                       </div>
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
-                          Match Between Team A
+                          Bowling Style
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="inputAddress"
+                          placeholder=""
+                          value={Player?.bowling_style}
+                          onChange={(e) => {
+                            SetPlayer({
+                              ...Player,
+                              bowling_style: e.target.value,
+                            });
+                          }}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label" htmlFor="inputAddress">
+                          Image
+                        </label>
+                        <div id="inner_banner_ce"></div>
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label" htmlFor="inputAddress">
+                          Team
                         </label>
                         <select
                           className="form-control"
                           onChange={(e) => {
-                            SetGallery({
-                              ...Gallery,
-                              team_a: e.target.value,
+                            SetPlayer({
+                              ...Player,
+                              team: e.target.value,
                             });
                           }}
                         >
@@ -262,58 +252,15 @@ function App() {
                             );
                           })}
                         </select>
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label" htmlFor="inputAddress">
-                          Match Between Team B
-                        </label>
-                        <select
-                          className="form-control"
-                          onChange={(e) => {
-                            SetGallery({
-                              ...Gallery,
-                              team_b: e.target.value,
-                            });
-                          }}
-                        >
-                          <option></option>
-                          {Teams?.map((v, i) => {
-                            return (
-                              <option value={v.id} key={i}>
-                                {v.name}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label" htmlFor="inputAddress">
-                          Date
-                        </label>
-                        <div className="input-group">
-                          <input
-                            type="date"
-                            className="form-control"
-                            id="inputGroupFile04"
-                            aria-describedby="inputGroupFileAddon04"
-                            aria-label="Upload"
-                            onChange={(e) => {
-                              SetGallery({
-                                ...Gallery,
-                                event_date: e.target.value,
-                              });
-                            }}
-                          />
-                        </div>
                       </div>
                       <button
                         type="submit"
                         className="btn btn-primary"
                         onClick={() => {
-                          InsertGallery(SetAlert, Gallery);
+                          InsertPlayer(SetAlert, Player);
                         }}
                       >
-                        Add Gallery
+                        Add Player
                       </button>
                     </div>
                   </div>
@@ -328,4 +275,4 @@ function App() {
   );
 }
 
-export default App;
+export default AddPlayer;

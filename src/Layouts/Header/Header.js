@@ -12,7 +12,7 @@ const Header = (props) => {
       <nav className="sidebar vertical-scroll  ps-container ps-theme-default ps-active-y">
         <div className="logo d-flex justify-content-center">
           <Link to="/">
-            <img src="/cricshizz.png" alt="" height={`50px`}/>
+            <img src="/cricshizz.png" alt="" height={`50px`} />
           </Link>
           <div className="sidebar_close_icon d-lg-none">
             <i className="ti-close"></i>
@@ -44,7 +44,15 @@ const Header = (props) => {
             </Link>
           </li>
           <li className="mm-active">
-            <Link to="/add-single-team" aria-expanded="false">
+            <Link to="/add-single-category" aria-expanded="false">
+              <div className="icon_menu">
+                <img src="img/menu-icon/dashboard.svg" alt="" />
+              </div>
+              <span>Add Category</span>
+            </Link>
+          </li>
+          <li className="mm-active">
+            <Link to="/add-team" aria-expanded="false">
               <div className="icon_menu">
                 <img src="img/menu-icon/dashboard.svg" alt="" />
               </div>
@@ -52,11 +60,27 @@ const Header = (props) => {
             </Link>
           </li>
           <li className="mm-active">
-            <Link to="/add-single-category" aria-expanded="false">
+            <Link to="/teams" aria-expanded="false">
               <div className="icon_menu">
                 <img src="img/menu-icon/dashboard.svg" alt="" />
               </div>
-              <span>Add Category</span>
+              <span>Teams</span>
+            </Link>
+          </li>
+          <li className="mm-active">
+            <Link to="/add-player" aria-expanded="false">
+              <div className="icon_menu">
+                <img src="img/menu-icon/dashboard.svg" alt="" />
+              </div>
+              <span>Add Player</span>
+            </Link>
+          </li>
+          <li className="mm-active">
+            <Link to="/players" aria-expanded="false">
+              <div className="icon_menu">
+                <img src="img/menu-icon/dashboard.svg" alt="" />
+              </div>
+              <span>Players</span>
             </Link>
           </li>
         </ul>

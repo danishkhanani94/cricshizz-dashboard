@@ -26,7 +26,6 @@ function App() {
   });
 
   const InsertBlog = () => {
-    console.log(Blog);
     if (
       Blog.title === "" ||
       Blog.description === "" ||
