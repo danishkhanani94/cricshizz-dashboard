@@ -4,23 +4,26 @@ import axios from "axios";
 import SweetAlert from "react-bootstrap-sweetalert";
 import uuid from "react-uuid";
 import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 
-function AddTeam() {
+function UpdateTeam() {
   const [cookie] = useCookies(["cricshizz-web"]);
   const [Alert, SetAlert] = useState();
+  const param = useParams();
 
   const [Team, SetTeam] = useState({
-    team_name: "",
-    team_logo: "",
-    team_banner: "",
-    team_color: "",
-    show: false,
+    name: "",
+    logo: "",
+    banner: "",
+    color: "",
+    id: "",
+    show:false
   });
 
-  function InsertTeam() {
+  function UpTeam() {
     if (
-      Team.team_name === "" ||
-      Team.team_color === ""
+      Team.name === "" ||
+      Team.color === ""
     ) {
       SetAlert(
         <SweetAlert
@@ -40,14 +43,15 @@ function AddTeam() {
       return false;
     }
     const formData = new URLSearchParams();
-    formData.append("team_name", Team.team_name);
-    formData.append("team_logo", Team.team_logo);
-    formData.append("team_banner", Team.team_banner);
-    formData.append("team_color", Team.team_color);
+    formData.append("team_name", Team.name);
+    formData.append("team_logo", Team.logo);
+    formData.append("team_banner", Team.banner);
+    formData.append("team_id", Team.id);
+    formData.append("team_color", Team.color);
     formData.append("show", Team.show);
 
     const Upload = axios.post(
-      `${process.env.REACT_APP_SERVER_URL}team/add`,
+      `${process.env.REACT_APP_SERVER_URL}team/update`,
       formData,
       {
         headers: {
@@ -93,7 +97,16 @@ function AddTeam() {
       }
     });
   }
-
+  let { id } = param;
+  async function getTeam() {
+    await axios
+      .get(`${process.env.REACT_APP_SERVER_URL}team/getByID/${id}`, {
+        headers: { Authorization: `Bearer ${cookie?.user?.token}` },
+      })
+      .then((res) => {
+        SetTeam(res.data[0].Data[0]);
+      });
+  }
   useEffect(() => {
     window.$("#inner_banner_ce").uploadFile({
       url: "https://bucket.cricshizz.com.pk",
@@ -103,7 +116,7 @@ function AddTeam() {
         var uuid_name = uuid() + data[0];
         SetTeam({
           ...Team,
-          team_banner: uuid_name,
+          banner: uuid_name,
         });
         var data = { upload_Files: true, name_0: uuid_name };
         return data;
@@ -117,12 +130,13 @@ function AddTeam() {
         var uuid_name = uuid() + data[0];
         SetTeam({
           ...Team,
-          team_logo: uuid_name,
+          logo: uuid_name,
         });
         var data = { upload_Files: true, name_0: uuid_name };
         return data;
       },
     });
+    getTeam();
   },[]);
   return (
     <>
@@ -135,7 +149,7 @@ function AddTeam() {
                   <div className="white_card_header">
                     <div className="box_header m-0">
                       <div className="main-title">
-                        <h3 className="m-0">Add Team</h3>
+                        <h3 className="m-0">Update Team</h3>
                       </div>
                     </div>
                   </div>
@@ -150,11 +164,11 @@ function AddTeam() {
                           className="form-control"
                           id="inputAddress"
                           placeholder=""
-                          value={Team?.team_name}
+                          value={Team?.name}
                           onChange={(e) => {
                             SetTeam({
                               ...Team,
-                              team_name: e.target.value,
+                              name: e.target.value,
                             });
                           }}
                         />
@@ -168,11 +182,11 @@ function AddTeam() {
                           className="form-control"
                           id="inputAddress"
                           placeholder=""
-                          value={Team?.team_color}
+                          value={Team?.color}
                           onChange={(e) => {
                             SetTeam({
                               ...Team,
-                              team_color: e.target.value,
+                              color: e.target.value,
                             });
                           }}
                         />
@@ -211,10 +225,10 @@ function AddTeam() {
                         type="submit"
                         className="btn btn-primary"
                         onClick={() => {
-                          InsertTeam(SetAlert, Team);
+                          UpTeam(SetAlert, Team);
                         }}
                       >
-                        Add Team
+                        Update Team
                       </button>
                     </div>
                   </div>
@@ -229,4 +243,4 @@ function AddTeam() {
   );
 }
 
-export default AddTeam;
+export default UpdateTeam;

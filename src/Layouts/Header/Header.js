@@ -22,7 +22,7 @@ const Header = (props) => {
           <li className="mm-active">
             <Link to="/" aria-expanded="false">
               <div className="icon_menu">
-                <img src="img/menu-icon/dashboard.svg" alt="" />
+                <img src="/img/menu-icon/dashboard.svg" alt="" />
               </div>
               <span>Dashboard</span>
             </Link>
@@ -30,7 +30,7 @@ const Header = (props) => {
           <li className="mm-active">
             <Link to="/blogs" aria-expanded="false">
               <div className="icon_menu">
-                <img src="img/menu-icon/dashboard.svg" alt="" />
+                <img src="/img/menu-icon/dashboard.svg" alt="" />
               </div>
               <span>Blogs</span>
             </Link>
@@ -38,7 +38,7 @@ const Header = (props) => {
           <li className="mm-active">
             <Link to="/gallery" aria-expanded="false">
               <div className="icon_menu">
-                <img src="img/menu-icon/dashboard.svg" alt="" />
+                <img src="/img/menu-icon/dashboard.svg" alt="" />
               </div>
               <span>Gallery</span>
             </Link>
@@ -46,7 +46,7 @@ const Header = (props) => {
           <li className="mm-active">
             <Link to="/add-single-category" aria-expanded="false">
               <div className="icon_menu">
-                <img src="img/menu-icon/dashboard.svg" alt="" />
+                <img src="/img/menu-icon/dashboard.svg" alt="" />
               </div>
               <span>Add Category</span>
             </Link>
@@ -54,7 +54,7 @@ const Header = (props) => {
           <li className="mm-active">
             <Link to="/add-team" aria-expanded="false">
               <div className="icon_menu">
-                <img src="img/menu-icon/dashboard.svg" alt="" />
+                <img src="/img/menu-icon/dashboard.svg" alt="" />
               </div>
               <span>Add Team</span>
             </Link>
@@ -62,7 +62,7 @@ const Header = (props) => {
           <li className="mm-active">
             <Link to="/teams" aria-expanded="false">
               <div className="icon_menu">
-                <img src="img/menu-icon/dashboard.svg" alt="" />
+                <img src="/img/menu-icon/dashboard.svg" alt="" />
               </div>
               <span>Teams</span>
             </Link>
@@ -70,7 +70,7 @@ const Header = (props) => {
           <li className="mm-active">
             <Link to="/add-player" aria-expanded="false">
               <div className="icon_menu">
-                <img src="img/menu-icon/dashboard.svg" alt="" />
+                <img src="/img/menu-icon/dashboard.svg" alt="" />
               </div>
               <span>Add Player</span>
             </Link>
@@ -78,7 +78,7 @@ const Header = (props) => {
           <li className="mm-active">
             <Link to="/players" aria-expanded="false">
               <div className="icon_menu">
-                <img src="img/menu-icon/dashboard.svg" alt="" />
+                <img src="/img/menu-icon/dashboard.svg" alt="" />
               </div>
               <span>Players</span>
             </Link>
@@ -102,7 +102,7 @@ const Header = (props) => {
                 </div>
                 <div className="header_right d-flex justify-content-between align-items-center">
                   <div className="profile_info">
-                    <img src="img/client_img.png" alt="#" />
+                    <img src="/img/client_img.png" alt="#" />
                     <div className="profile_info_iner">
                       <div className="profile_author_name">
                         <h5>{props?.user?.name}</h5>

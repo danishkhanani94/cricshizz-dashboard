@@ -96,6 +96,12 @@ const AllPlayers = () => {
                                   >
                                     Delete
                                   </button>
+                                  <Link
+                                    to={`/player/update/${v.id}`}
+                                    className="btn btn-info text-white ml-5"
+                                  >
+                                    Update
+                                  </Link>
                                 </td>
                               </tr>
                             );

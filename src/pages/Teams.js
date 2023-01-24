@@ -15,7 +15,7 @@ const Teams = () => {
           headers: { Authorization: `Bearer ${cookie?.user?.token}` },
         })
         .then((res) => {
-            SetTeams(res.data[0].Data);
+          SetTeams(res.data[0].Data);
         });
     }
     getTeams();
@@ -27,8 +27,8 @@ const Teams = () => {
       })
       .then((res) => {
         if (res.data[0].success) {
-            Teams.splice(index, 1);
-            SetTeams([...Teams]);
+          Teams.splice(index, 1);
+          SetTeams([...Teams]);
         } else {
           console.log("Error While Deleting :", res.data[0]);
         }
@@ -91,11 +91,17 @@ const Teams = () => {
                                   <button
                                     className="btn btn-danger"
                                     onClick={() => {
-                                        DeleteTeam(v.id, i);
+                                      DeleteTeam(v.id, i);
                                     }}
                                   >
                                     Delete
                                   </button>
+                                  <Link
+                                    to={`/team/update/${v.id}`}
+                                    className="btn btn-info text-white ml-5"
+                                  >
+                                    Update
+                                  </Link>
                                 </td>
                               </tr>
                             );

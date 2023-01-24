@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "./App.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -16,6 +17,8 @@ import GalleryAll from "./pages/GalleryAll";
 import { CookiesProvider } from "react-cookie";
 import AddPlayer from "./pages/AddPlayer";
 import AllPlayers from "./pages/Players";
+import UpdateTeam from "./pages/UpdateTeam";
+import UpdatePlayer from "./pages/Updateplayer";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -32,7 +35,9 @@ root.render(
         <Route path="/add-player" element={<AddPlayer />} />
         <Route path="/add-team" element={<AddTeam />} />
         <Route path="/teams" element={<Teams />} />
+        <Route path="/team/update/:id" element={<UpdateTeam />} />
         <Route path="/players" element={<AllPlayers />} />
+        <Route path="/player/update/:id" element={<UpdatePlayer />} />
       </Routes>
     </BrowserRouter>
   </CookiesProvider>

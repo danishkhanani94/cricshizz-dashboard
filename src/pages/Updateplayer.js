@@ -4,23 +4,32 @@ import axios from "axios";
 import SweetAlert from "react-bootstrap-sweetalert";
 import uuid from "react-uuid";
 import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 
-function AddTeam() {
+function UpdatePlayer() {
+  const params = useParams();
+  let { id } = params;
   const [cookie] = useCookies(["cricshizz-web"]);
   const [Alert, SetAlert] = useState();
+  const [Teams, SetTeams] = useState([]);
 
-  const [Team, SetTeam] = useState({
-    team_name: "",
-    team_logo: "",
-    team_banner: "",
-    team_color: "",
-    show: false,
+  const [Player, SetPlayer] = useState({
+    name: "",
+    image: "",
+    category: "",
+    batting_style: "",
+    bowling_style: "",
+    team: "",
+    id: ""
   });
 
-  function InsertTeam() {
+  function UpPlayer() {
     if (
-      Team.team_name === "" ||
-      Team.team_color === ""
+      Player.name === "" ||
+      Player.category === "" ||
+      Player.batting_style === "" ||
+      Player.bowling_style === "" ||
+      Player.team === ""
     ) {
       SetAlert(
         <SweetAlert
@@ -40,14 +49,16 @@ function AddTeam() {
       return false;
     }
     const formData = new URLSearchParams();
-    formData.append("team_name", Team.team_name);
-    formData.append("team_logo", Team.team_logo);
-    formData.append("team_banner", Team.team_banner);
-    formData.append("team_color", Team.team_color);
-    formData.append("show", Team.show);
+    formData.append("name", Player.name);
+    formData.append("image", Player.image);
+    formData.append("category", Player.category);
+    formData.append("batting_style", Player.batting_style);
+    formData.append("bowling_style", Player.bowling_style);
+    formData.append("team", Player.team);
+    formData.append("id", Player.id);
 
     const Upload = axios.post(
-      `${process.env.REACT_APP_SERVER_URL}team/add`,
+      `${process.env.REACT_APP_SERVER_URL}player/update`,
       formData,
       {
         headers: {
@@ -93,7 +104,15 @@ function AddTeam() {
       }
     });
   }
-
+  async function getPlayer() {
+    await axios
+      .get(`${process.env.REACT_APP_SERVER_URL}player/getByID/${id}`, {
+        headers: { Authorization: `Bearer ${cookie?.user?.token}` },
+      })
+      .then((res) => {
+        SetPlayer(res.data[0].Data[0]);
+      });
+  }
   useEffect(() => {
     window.$("#inner_banner_ce").uploadFile({
       url: "https://bucket.cricshizz.com.pk",
@@ -101,29 +120,33 @@ function AddTeam() {
       acceptFiles: "image/*",
       dynamicFormData: function (data) {
         var uuid_name = uuid() + data[0];
-        SetTeam({
-          ...Team,
-          team_banner: uuid_name,
+        SetPlayer({
+          ...Player,
+          image: uuid_name,
         });
         var data = { upload_Files: true, name_0: uuid_name };
         return data;
       },
     });
-    window.$("#inner_logo_ce").uploadFile({
-      url: "https://bucket.cricshizz.com.pk",
-      fileName: "file_0",
-      acceptFiles: "image/*",
-      dynamicFormData: function (data) {
-        var uuid_name = uuid() + data[0];
-        SetTeam({
-          ...Team,
-          team_logo: uuid_name,
-        });
-        var data = { upload_Files: true, name_0: uuid_name };
-        return data;
-      },
+    const GetData = axios.get(
+      `${process.env.REACT_APP_SERVER_URL}team/all`,
+      {},
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookie?.user?.token}`,
+        },
+      }
+    );
+    GetData.then((r) => {
+      var Result = r.data[0];
+      if (Result?.success) {
+        SetTeams(Result.Data);
+      } else {
+      }
     });
-  },[]);
+    getPlayer();
+  }, []);
   return (
     <>
       <Layout>
@@ -135,7 +158,7 @@ function AddTeam() {
                   <div className="white_card_header">
                     <div className="box_header m-0">
                       <div className="main-title">
-                        <h3 className="m-0">Add Team</h3>
+                        <h3 className="m-0">Update Player</h3>
                       </div>
                     </div>
                   </div>
@@ -143,78 +166,114 @@ function AddTeam() {
                     <div className="card-body">
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
-                          Team Name
+                          Player Name
                         </label>
                         <input
                           type="text"
                           className="form-control"
                           id="inputAddress"
                           placeholder=""
-                          value={Team?.team_name}
+                          value={Player?.name}
                           onChange={(e) => {
-                            SetTeam({
-                              ...Team,
-                              team_name: e.target.value,
+                            SetPlayer({
+                              ...Player,
+                              name: e.target.value,
                             });
                           }}
                         />
                       </div>
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
-                          Color
+                          Player Category
                         </label>
                         <input
-                          type="color"
+                          type="text"
                           className="form-control"
                           id="inputAddress"
                           placeholder=""
-                          value={Team?.team_color}
+                          value={Player?.category}
                           onChange={(e) => {
-                            SetTeam({
-                              ...Team,
-                              team_color: e.target.value,
+                            SetPlayer({
+                              ...Player,
+                              category: e.target.value,
                             });
                           }}
                         />
                       </div>
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
-                          Show
+                          Batting Style
                         </label>
-                        <br />
                         <input
-                          type="checkbox"
-                          className="form"
-                          value={Team?.show}
+                          type="text"
+                          className="form-control"
+                          id="inputAddress"
+                          placeholder=""
+                          value={Player?.batting_style}
                           onChange={(e) => {
-                            SetTeam({
-                              ...Team,
-                              show: !Team?.show,
+                            SetPlayer({
+                              ...Player,
+                              batting_style: e.target.value,
                             });
                           }}
-                          checked={Team?.show ? "checked" : ""}
                         />
                       </div>
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
-                          Main Banner
+                          Bowling Style
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="inputAddress"
+                          placeholder=""
+                          value={Player?.bowling_style}
+                          onChange={(e) => {
+                            SetPlayer({
+                              ...Player,
+                              bowling_style: e.target.value,
+                            });
+                          }}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label" htmlFor="inputAddress">
+                          Image
                         </label>
                         <div id="inner_banner_ce"></div>
                       </div>
                       <div className="mb-3">
                         <label className="form-label" htmlFor="inputAddress">
-                          Logo
+                          Team
                         </label>
-                        <div id="inner_logo_ce"></div>
+                        <select
+                          className="form-control"
+
+                          onChange={(e) => {
+                            SetPlayer({
+                              ...Player,
+                              team: e.target.value,
+                            });
+                          }}
+                        >
+                          <option></option>
+                          {Teams?.map((v, i) => {
+                            return (
+                              <option selected={Player.id === v.id ? 'selected' : ''} value={v.id} key={i}>
+                                {v.name}
+                              </option>
+                            );
+                          })}
+                        </select>
                       </div>
                       <button
                         type="submit"
                         className="btn btn-primary"
                         onClick={() => {
-                          InsertTeam(SetAlert, Team);
+                          UpPlayer(SetAlert, Player);
                         }}
                       >
-                        Add Team
+                        Update Player
                       </button>
                     </div>
                   </div>
@@ -229,4 +288,4 @@ function AddTeam() {
   );
 }
 
-export default AddTeam;
+export default UpdatePlayer;
